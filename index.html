@@ -486,6 +486,33 @@
     /* =====================================================
        CHALLENGE
        ===================================================== */
+    .defs-box {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      border-radius: var(--rl);
+      overflow: hidden;
+      margin-bottom: 40px;
+    }
+
+    @media (max-width: 600px) { .defs-box { grid-template-columns: 1fr; } }
+
+    .def-item { background: var(--surface); padding: 18px 22px 20px; }
+
+    .def-term {
+      font-family: var(--ff-display);
+      font-size: .7rem;
+      font-weight: 800;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--accent-text);
+      margin-bottom: 6px;
+    }
+
+    .def-body { font-size: .9375rem; color: var(--text-2); line-height: 1.65; margin: 0; }
+
     .challenge-cols {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -515,9 +542,9 @@
       display: flex;
       gap: 10px;
       align-items: flex-start;
-      font-size: .875rem;
+      font-size: .9375rem;
       color: var(--text-2);
-      line-height: 1.55;
+      line-height: 1.6;
     }
 
     .cause-list li::before {
@@ -1279,16 +1306,28 @@
       <p class="section__desc">Relevance AI sits on a single allocation shared across every team at Employment Hero using the platform. When that allocation runs dry, everything on it stops — not just the team that exhausted it. Our AI SDR workforces were among the biggest draws, and by mid-year were on track to exhaust it by around November.</p>
     </div>
 
+    <div class="defs-box" aria-label="Key terms">
+      <div class="def-item">
+        <div class="def-term">Action</div>
+        <p class="def-body">The unit Relevance AI bills every time an agent does something — runs a search, scrapes a page, calls a tool, sends a message. A single "research a prospect" step can rack up several actions before it even gets to writing an email.</p>
+      </div>
+      <div class="def-item">
+        <div class="def-term">Credit</div>
+        <p class="def-body">Roughly, the compute cost of the thinking behind those actions. A quick lookup costs a little; a large model reasoning carefully over a long research brief costs more. Actions and credits usually move together — but not always, which matters (see Chapter 02).</p>
+      </div>
+    </div>
+
     <div class="challenge-cols">
       <div class="challenge-prose">
         <h3>The situation</h3>
-        <p>Across eight AI SDR workforces, each prospect was being processed at 12–16 actions and 4–8 search runs — a design inherited from early proof-of-concept builds where throughput wasn't a constraint. As volume grew, that cost-per-lead profile didn't shrink. It compounded. AU/NZ Outbound alone roughly doubled in run volume since June. At the old architecture, that would have doubled our footprint too.</p>
+        <p>Across eight AI SDR workforces, each prospect was being processed at 12–16 actions and 4–8 search runs — inherited from early proof-of-concept builds where throughput wasn't a constraint. As volume grew, that cost-per-lead profile didn't shrink. It compounded. And critically: cost growth wasn't only from waste. We were actively adding improvements throughout — Slack notifications for leads flagged with data hygiene issues, tags and run links to help with troubleshooting — each a legitimate feature that added real value but carried its own action cost. The platform cost was rising from both ends simultaneously.</p>
 
         <h3 style="margin-top:24px;">Root causes</h3>
         <ul class="cause-list">
           <li>Architectural bloat — multi-step tool chains billing separately for every sub-call</li>
           <li>Redundant cloned agents spun up per region with no shared optimization baseline</li>
           <li>Silent error billing — one intel tool billed every run despite a ~100% failure rate across ~780 runs</li>
+          <li>Ongoing feature additions — Slack alerts, run tags, troubleshooting links — each valuable, each with its own cost</li>
           <li>"Set-and-forget" governance — workforces deployed and never audited for cost efficiency</li>
           <li>No eval framework — cheaper rewrites couldn't be validated, so no one shipped them</li>
         </ul>
