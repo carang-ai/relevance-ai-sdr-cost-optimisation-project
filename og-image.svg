@@ -1,0 +1,81 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#460078"/>
+      <stop offset="100%" stop-color="#7622D7"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="630" fill="url(#bg)"/>
+
+  <!-- Decorative rings — top right -->
+  <circle cx="1220" cy="-40" r="520" fill="none" stroke="rgba(255,255,255,0.045)" stroke-width="100"/>
+  <circle cx="1220" cy="-40" r="340" fill="none" stroke="rgba(255,255,255,0.035)" stroke-width="70"/>
+
+  <!-- Green accent bar — left edge -->
+  <rect x="0" y="0" width="6" height="630" fill="#94E022"/>
+
+  <!-- Brand row -->
+  <rect x="72" y="58" width="32" height="32" rx="6" fill="rgba(255,255,255,0.12)"/>
+  <!-- EH triangle pip -->
+  <path d="M88 63 L100 85 H76 Z" fill="rgba(255,255,255,0.85)"/>
+  <text x="116" y="81"
+        font-family="Arial Black, Arial, Helvetica, sans-serif"
+        font-size="15" font-weight="700"
+        fill="rgba(255,255,255,0.5)"
+        letter-spacing="2.5">EMPLOYMENT HERO · GROWTH &amp; OPERATIONS</text>
+
+  <!-- Main hero number -->
+  <text x="68" y="350"
+        font-family="Arial Black, Arial, Helvetica, sans-serif"
+        font-size="260" font-weight="900"
+        fill="#94E022"
+        letter-spacing="-8">550k</text>
+
+  <!-- Hero label -->
+  <text x="72" y="408"
+        font-family="Arial, Helvetica, sans-serif"
+        font-size="33" font-weight="400"
+        fill="rgba(255,255,255,0.72)">platform actions per year — no longer used</text>
+
+  <!-- Divider -->
+  <rect x="72" y="448" width="1056" height="1" fill="rgba(255,255,255,0.16)"/>
+
+  <!-- Sub-stat 1: −45% -->
+  <text x="72" y="504"
+        font-family="Arial Black, Arial, Helvetica, sans-serif"
+        font-size="50" font-weight="900" fill="white">−45%</text>
+  <text x="72" y="532"
+        font-family="Arial, Helvetica, sans-serif"
+        font-size="17" fill="rgba(255,255,255,0.48)">actions per run</text>
+
+  <!-- Sub-stat 2: −42% -->
+  <text x="320" y="504"
+        font-family="Arial Black, Arial, Helvetica, sans-serif"
+        font-size="50" font-weight="900" fill="white">−42%</text>
+  <text x="320" y="532"
+        font-family="Arial, Helvetica, sans-serif"
+        font-size="17" fill="rgba(255,255,255,0.48)">credits per run</text>
+
+  <!-- Sub-stat 3: 8/8 -->
+  <text x="568" y="504"
+        font-family="Arial Black, Arial, Helvetica, sans-serif"
+        font-size="50" font-weight="900" fill="white">8 / 8</text>
+  <text x="568" y="532"
+        font-family="Arial, Helvetica, sans-serif"
+        font-size="17" fill="rgba(255,255,255,0.48)">workforces rebuilt</text>
+
+  <!-- Sub-stat 4: quality -->
+  <text x="816" y="504"
+        font-family="Arial Black, Arial, Helvetica, sans-serif"
+        font-size="50" font-weight="900" fill="white">100%</text>
+  <text x="816" y="532"
+        font-family="Arial, Helvetica, sans-serif"
+        font-size="17" fill="rgba(255,255,255,0.48)">output quality retained</text>
+
+  <!-- Footer -->
+  <text x="72" y="601"
+        font-family="Arial, Helvetica, sans-serif"
+        font-size="17" fill="rgba(255,255,255,0.28)">AI SDR Efficiency Overhaul · August 2026</text>
+</svg>
