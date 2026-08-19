@@ -869,6 +869,165 @@
     .pb-eg strong { color: var(--accent-text); font-family: var(--ff-mono); font-weight: 500; }
 
     /* =====================================================
+       BUG DEEP-DIVES
+       ===================================================== */
+    .bugs-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      align-items: start;
+    }
+
+    @media (max-width: 900px) { .bugs-grid { grid-template-columns: 1fr; } }
+
+    .bug-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--rl);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+    }
+
+    .bug-card__hd {
+      padding: 18px 22px 16px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .bug-card__eyebrow {
+      font-family: var(--ff-mono);
+      font-size: .6rem;
+      font-weight: 500;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      margin-bottom: 7px;
+    }
+
+    .bug-card__eyebrow--critical { color: var(--red); }
+    .bug-card__eyebrow--medium   { color: var(--accent-text); }
+
+    .bug-card__title {
+      font-family: var(--ff-display);
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.25;
+    }
+
+    .bug-card__body { padding: 20px 22px; }
+
+    .bug-section { margin-bottom: 18px; }
+    .bug-section:last-child { margin-bottom: 0; }
+
+    .bug-section__lbl {
+      font-family: var(--ff-mono);
+      font-size: .6rem;
+      font-weight: 500;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--text-3);
+      margin-bottom: 7px;
+    }
+
+    .bug-section p {
+      font-size: .875rem;
+      color: var(--text-2);
+      line-height: 1.65;
+    }
+
+    .bug-layer-list {
+      list-style: none;
+      display: grid;
+      gap: 6px;
+    }
+
+    .bug-layer-list li {
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+      font-size: .8125rem;
+      color: var(--text-2);
+      line-height: 1.55;
+    }
+
+    .bug-layer-list li .lnum {
+      font-family: var(--ff-mono);
+      font-size: .6rem;
+      font-weight: 500;
+      color: var(--accent-text);
+      background: var(--accent-fill2);
+      border-radius: 3px;
+      padding: 1px 6px;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .code-diff {
+      background: var(--bg-deep);
+      border: 1px solid var(--border);
+      border-radius: var(--r);
+      padding: 13px 16px;
+      margin-top: 10px;
+    }
+
+    .code-diff__row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-family: var(--ff-mono);
+      font-size: .78rem;
+      line-height: 1.5;
+    }
+
+    .code-diff__row + .code-diff__row { margin-top: 4px; }
+
+    .code-diff__pill {
+      font-size: .55rem;
+      font-weight: 700;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      padding: 2px 6px;
+      border-radius: 3px;
+      flex-shrink: 0;
+    }
+
+    .code-diff__pill--before { background: var(--red-fill); color: var(--red); }
+    .code-diff__pill--after  { background: var(--green-fill); color: #4a7c00; }
+
+    :root[data-theme="dark"] .code-diff__pill--after,
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme="light"]) .code-diff__pill--after { color: #94E022; }
+    }
+
+    .code-diff__code { color: var(--text); word-break: break-all; }
+
+    .code-diff__note {
+      margin-top: 9px;
+      padding-top: 9px;
+      border-top: 1px solid var(--border);
+      font-size: .75rem;
+      color: var(--text-3);
+      line-height: 1.5;
+      font-family: var(--ff-sans);
+    }
+
+    .bug-result {
+      display: flex;
+      gap: 16px;
+      margin-top: 14px;
+    }
+
+    .bug-result__stat { text-align: center; }
+    .bug-result__val {
+      font-family: var(--ff-mono);
+      font-size: 1.45rem;
+      font-weight: 500;
+      color: var(--accent-text);
+      font-variant-numeric: tabular-nums;
+      line-height: 1;
+    }
+    .bug-result__lbl { font-size: .65rem; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--text-3); margin-top: 3px; }
+
+    /* =====================================================
        CREDITS
        ===================================================== */
     .credits-row { display: flex; gap: 20px; flex-wrap: wrap; }
@@ -936,6 +1095,7 @@
       <li><a href="#challenge">Challenge</a></li>
       <li><a href="#impact">Impact Data</a></li>
       <li><a href="#quality">Quality</a></li>
+      <li><a href="#bugs">Bug Dives</a></li>
       <li><a href="#playbook">Playbook</a></li>
       <li><a href="#credits">Credits</a></li>
     </ul>
@@ -1230,12 +1390,132 @@
 </section>
 
 <!-- =====================================================
-     04 — PLAYBOOK
+     04 — BUG DEEP-DIVES
+     ===================================================== -->
+<div class="chapter-band chapter-band--mid" id="bugs">
+  <div class="wrap">
+    <div class="chapter-inner">
+      <div class="chapter-num">04</div>
+      <h2>Bug Deep-Dives</h2>
+    </div>
+  </div>
+</div>
+
+<section class="section section--wash">
+  <div class="wrap">
+    <div class="section__hd">
+      <h2 class="section__title">Two production bugs that were invisible by design</h2>
+      <p class="section__desc">Neither was a logic error you could reason your way to from code behavior alone. Both required understanding a layer underneath the code — the platform's runtime assumptions — before the fix became visible.</p>
+    </div>
+
+    <div class="bugs-grid">
+
+      <!-- Bug 1: Calendar Link -->
+      <div class="bug-card">
+        <div class="bug-card__hd">
+          <div class="bug-card__eyebrow bug-card__eyebrow--critical">Platform internals bug &middot; Stacked (4 layers)</div>
+          <div class="bug-card__title">Calendar Link: Same Code, Wrong Behavior</div>
+        </div>
+        <div class="bug-card__body">
+
+          <div class="bug-section">
+            <div class="bug-section__lbl">The crux</div>
+            <p>The code looked completely correct. You could stare at it all day — it's valid, sensible Python. The bug wasn't in the logic; it was in a layer underneath the logic that rewrites source text <em>before</em> executing it. Almost all debugging assumes that if two pieces of code compute the same value, they behave the same. Here, that assumption was false.</p>
+          </div>
+
+          <div class="bug-section">
+            <div class="bug-section__lbl">The fix — only visible by diffing character-by-character</div>
+            <div class="code-diff">
+              <div class="code-diff__row">
+                <span class="code-diff__pill code-diff__pill--before">Broken</span>
+                <span class="code-diff__code">{{ calendar_link }}</span>
+              </div>
+              <div class="code-diff__row">
+                <span class="code-diff__pill code-diff__pill--after">Fixed</span>
+                <span class="code-diff__code">chr(123)*2 + "calendar_link" + chr(125)*2</span>
+              </div>
+              <div class="code-diff__note">Both produce the identical runtime string. The difference is that Relevance scans the stored <em>source text</em> of the code — not just the value it computes — and <code>{{</code> typed directly triggers a template substitution pass that blanks the tag. <code>chr(123)*2</code> bypasses the scanner entirely. You'd only find this by knowing the platform behaves this way, which isn't something you'd normally think to check.</div>
+            </div>
+          </div>
+
+          <div class="bug-section">
+            <div class="bug-section__lbl">Why it looked like "nothing is working" — 4 stacked bugs, 1 symptom</div>
+            <ul class="bug-layer-list">
+              <li><span class="lnum">L1</span>Relevance's state layer sometimes blanking the tag when read across step boundaries</li>
+              <li><span class="lnum">L2</span>Source-code text-scanning issue — the one above</li>
+              <li><span class="lnum">L3</span>Orchestrator agent occasionally deciding "undefined" was the correct value and overriding a correct result</li>
+              <li><span class="lnum">L4</span>Orchestrator sometimes downplaying a real failure in its summary ("known issue, doesn't affect delivery")</li>
+            </ul>
+          </div>
+
+          <div class="bug-section">
+            <div class="bug-section__lbl">Why the environment was a red herring</div>
+            <p>An equivalent fix worked fine on a different workforce writing to the same Outreach org. That made us test OAuth accounts, HTML structure, and tool wiring — all plausible suspects, all ruled out against production. The environment really was identical. The difference was purely in how the brace characters were written in source.</p>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Bug 2: Case Study Tools -->
+      <div class="bug-card">
+        <div class="bug-card__hd">
+          <div class="bug-card__eyebrow bug-card__eyebrow--medium">Logic bug &middot; Stacked (2 layers)</div>
+          <div class="bug-card__title">Case Study Tools: Two Bugs, One Silent Result</div>
+        </div>
+        <div class="bug-card__body">
+
+          <div class="bug-section">
+            <div class="bug-section__lbl">The symptom</div>
+            <p>NZ and UK leads were receiving poor or irrelevant case study matches. The tools appeared to run without errors — output was produced — so there was no obvious signal that anything was wrong. The full pool of available case studies was being silently ignored.</p>
+          </div>
+
+          <div class="bug-section">
+            <div class="bug-section__lbl">Bug layer 1 — Missing region branch</div>
+            <p>The region-matching logic in the Asana lookup tool had no branch for UK at all. It only recognized <code>AU</code> and <code>NZ</code>. UK leads fell through to an unrestricted Google search that could surface any region's case study, with no quality or relevance control.</p>
+          </div>
+
+          <div class="bug-section">
+            <div class="bug-section__lbl">Bug layer 2 — Broken URL regex</div>
+            <p>The URL-extraction regex only recognized the unprefixed AU-style link format. It silently dropped almost every NZ (<code>/nz/</code>) and UK (<code>/uk/</code>) case study — even on runs where the region matching itself worked correctly. Both bugs had to be present for the failure to fully manifest; fixing one alone would still produce bad output.</p>
+          </div>
+
+          <div class="bug-section">
+            <div class="bug-section__lbl">The fix</div>
+            <p>Added the missing UK branch to the region logic. Broadened the regex to accept locale-prefixed URL formats. Both changes together unlocked the full existing pool of case studies that had been sitting unused in Asana throughout.</p>
+          </div>
+
+          <div class="bug-section">
+            <div class="bug-section__lbl">What was unlocked</div>
+            <div class="bug-result">
+              <div class="bug-result__stat">
+                <div class="bug-result__val">22</div>
+                <div class="bug-result__lbl">NZ case studies</div>
+              </div>
+              <div class="bug-result__stat">
+                <div class="bug-result__val">41</div>
+                <div class="bug-result__lbl">UK case studies</div>
+              </div>
+              <div class="bug-result__stat">
+                <div class="bug-result__val">0</div>
+                <div class="bug-result__lbl">previously reachable</div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- =====================================================
+     05 — PLAYBOOK
      ===================================================== -->
 <div class="chapter-band chapter-band--mid" id="playbook">
   <div class="wrap">
     <div class="chapter-inner">
-      <div class="chapter-num">04</div>
+      <div class="chapter-num">05</div>
       <h2>Optimization Blueprint</h2>
     </div>
   </div>
@@ -1298,12 +1578,12 @@
 </section>
 
 <!-- =====================================================
-     05 — CREDITS
+     06 — CREDITS
      ===================================================== -->
 <div class="chapter-band chapter-band--dark" id="credits">
   <div class="wrap">
     <div class="chapter-inner">
-      <div class="chapter-num">05</div>
+      <div class="chapter-num">06</div>
       <h2>Project Credits</h2>
     </div>
   </div>
