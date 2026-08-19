@@ -1327,20 +1327,22 @@
     <div class="challenge-cols">
       <div class="challenge-prose">
         <h3>The situation</h3>
-        <p>Across eight AI SDR workforces, each prospect was being processed at 12–16 actions and 4–8 search runs — inherited from early proof-of-concept builds where throughput wasn't a constraint. As volume grew, that cost-per-lead profile didn't shrink. It compounded. And critically: cost growth wasn't only from waste. We were actively adding improvements throughout — Slack notifications for leads flagged with data hygiene issues, tags and run links to help with troubleshooting — each a legitimate feature that added real value but carried its own action cost. The platform cost was rising from both ends simultaneously.</p>
+        <p>Cost was rising from three directions at once. More workforces were being launched. More people were using them. And we were deliberately adding real capability throughout — Slack alerts for leads flagged with data hygiene issues, run tags and links to make troubleshooting faster. All of it legitimate. All of it with its own action cost.</p>
+        <p style="margin-top:12px;">The architecture underneath hadn't kept pace. Each prospect was still being processed at 12–16 actions and 4–8 search runs — a design inherited from early proof-of-concept builds where cost wasn't a constraint. A cost-per-lead profile that was never meant to scale was now running at scale, compounding with every new workflow and every new user.</p>
+        <p style="margin-top:12px;">That's exactly why a one-off cleanup was never the answer. Per-run efficiency has to shrink continuously as usage grows — or every legitimate improvement, every new workforce, every additional user just adds to the problem rather than to the value.</p>
 
         <h3 style="margin-top:24px;">Root causes</h3>
         <ul class="cause-list">
           <li>Architectural bloat — multi-step tool chains billing separately for every sub-call</li>
-          <li>Redundant cloned agents spun up per region with no shared optimization baseline</li>
-          <li>Silent error billing — one intel tool billed every run despite a ~100% failure rate across ~780 runs</li>
-          <li>Ongoing feature additions — Slack alerts, run tags, troubleshooting links — each valuable, each with its own cost</li>
-          <li>"Set-and-forget" governance — workforces deployed and never audited for cost efficiency</li>
+          <li>Redundant cloned agents per region with no shared optimization baseline</li>
+          <li>Silent error billing — one intel tool billed every run at a ~100% failure rate across ~780 runs</li>
+          <li>Real capability additions — Slack alerts, run tags, troubleshooting links — each valuable, each adding to the per-run cost</li>
+          <li>"Set-and-forget" governance — workforces deployed and never audited for efficiency</li>
           <li>No eval framework — cheaper rewrites couldn't be validated, so no one shipped them</li>
         </ul>
 
         <div class="info-box">
-          <strong>Important context:</strong> Despite a recent contract top-up, ongoing optimization remains mandatory. Run volumes are still growing — this work builds structural efficiency, not one-time relief.
+          <strong>The proof it worked:</strong> AU/NZ Outbound now handles roughly double the volume it was processing in June, on 25% fewer actions per lead. Cost per lead shrinking while usage doubles — that's the structural win, and it's what this project was designed to achieve.
         </div>
       </div>
 
