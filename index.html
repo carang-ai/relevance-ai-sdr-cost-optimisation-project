@@ -1,0 +1,1388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI SDR Efficiency Overhaul</title>
+  <meta name="description" content="How Employment Hero's Growth & Operations team cut Relevance AI action and credit spend by 45% and 42% across all eight AI SDR workforces — without sacrificing output quality.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <style>
+    /* =====================================================
+       TOKENS — light theme (default)
+       ===================================================== */
+    :root {
+      --bg:          #F2F4FA;
+      --bg-deep:     #E6E9F5;
+      --surface:     #FFFFFF;
+      --surface-2:   #EEF0FA;
+      --border:      #D2D6EC;
+      --border-hi:   #B0B6D4;
+
+      --accent:      #008F74;
+      --accent-2:    #00C49A;
+      --accent-fill: rgba(0, 143, 116, 0.08);
+      --accent-fill2:rgba(0, 143, 116, 0.14);
+      --accent-text: #006B58;
+
+      --amber:       #B45309;
+      --amber-fill:  rgba(180, 83, 9, 0.08);
+
+      --red:         #B91C1C;
+      --red-fill:    rgba(185, 28, 28, 0.08);
+
+      --green:       #15803D;
+      --green-fill:  rgba(21, 128, 61, 0.08);
+
+      --text:        #0B0D1A;
+      --text-2:      #424870;
+      --text-3:      #7A80A2;
+
+      --shadow:      0 1px 3px rgba(0,0,0,.05), 0 4px 14px rgba(0,0,0,.04);
+      --shadow-lg:   0 2px 8px rgba(0,0,0,.07), 0 16px 40px rgba(0,0,0,.05);
+
+      --r:  6px;
+      --rl: 10px;
+
+      --ff-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+      --ff-mono: 'DM Mono', 'Cascadia Mono', monospace;
+    }
+
+    /* =====================================================
+       TOKENS — dark theme (system preference)
+       ===================================================== */
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme="light"]) {
+        --bg:          #090B13;
+        --bg-deep:     #060810;
+        --surface:     #111420;
+        --surface-2:   #181C2C;
+        --border:      #20253A;
+        --border-hi:   #2C3250;
+
+        --accent:      #00D4AA;
+        --accent-2:    #00F0C0;
+        --accent-fill: rgba(0,212,170,.08);
+        --accent-fill2:rgba(0,212,170,.14);
+        --accent-text: #00D4AA;
+
+        --amber:       #F59E0B;
+        --amber-fill:  rgba(245,158,11,.10);
+
+        --red:         #F87171;
+        --red-fill:    rgba(248,113,113,.10);
+
+        --green:       #34D399;
+        --green-fill:  rgba(52,211,153,.10);
+
+        --text:        #E2E6F8;
+        --text-2:      #848DB0;
+        --text-3:      #42486A;
+
+        --shadow:      0 1px 4px rgba(0,0,0,.35), 0 6px 20px rgba(0,0,0,.25);
+        --shadow-lg:   0 2px 8px rgba(0,0,0,.45), 0 20px 56px rgba(0,0,0,.35);
+      }
+    }
+
+    /* =====================================================
+       TOKENS — explicit dark toggle
+       ===================================================== */
+    :root[data-theme="dark"] {
+      --bg:          #090B13;
+      --bg-deep:     #060810;
+      --surface:     #111420;
+      --surface-2:   #181C2C;
+      --border:      #20253A;
+      --border-hi:   #2C3250;
+
+      --accent:      #00D4AA;
+      --accent-2:    #00F0C0;
+      --accent-fill: rgba(0,212,170,.08);
+      --accent-fill2:rgba(0,212,170,.14);
+      --accent-text: #00D4AA;
+
+      --amber:       #F59E0B;
+      --amber-fill:  rgba(245,158,11,.10);
+
+      --red:         #F87171;
+      --red-fill:    rgba(248,113,113,.10);
+
+      --green:       #34D399;
+      --green-fill:  rgba(52,211,153,.10);
+
+      --text:        #E2E6F8;
+      --text-2:      #848DB0;
+      --text-3:      #42486A;
+
+      --shadow:      0 1px 4px rgba(0,0,0,.35), 0 6px 20px rgba(0,0,0,.25);
+      --shadow-lg:   0 2px 8px rgba(0,0,0,.45), 0 20px 56px rgba(0,0,0,.35);
+    }
+
+    /* =====================================================
+       RESET
+       ===================================================== */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; font-size: 16px; }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+    }
+
+    body {
+      font-family: var(--ff-sans);
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* =====================================================
+       TYPOGRAPHY
+       ===================================================== */
+    h1 {
+      font-size: clamp(2rem, 4.5vw, 3.2rem);
+      font-weight: 800;
+      line-height: 1.08;
+      letter-spacing: -.028em;
+      text-wrap: balance;
+    }
+
+    h2 {
+      font-size: clamp(1.2rem, 2.5vw, 1.55rem);
+      font-weight: 700;
+      line-height: 1.2;
+      letter-spacing: -.018em;
+      text-wrap: balance;
+    }
+
+    h3 {
+      font-size: 1rem;
+      font-weight: 700;
+      line-height: 1.3;
+      letter-spacing: -.01em;
+    }
+
+    p {
+      font-size: .9375rem;
+      line-height: 1.7;
+      color: var(--text-2);
+    }
+
+    a { color: var(--accent-text); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 3px; }
+
+    /* =====================================================
+       LAYOUT
+       ===================================================== */
+    .wrap  { max-width: 1160px; margin: 0 auto; padding: 0 24px; }
+    .wrap--mid { max-width: 860px; margin: 0 auto; padding: 0 24px; }
+
+    /* =====================================================
+       NAV
+       ===================================================== */
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav__row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      max-width: 1160px;
+      margin: 0 auto;
+      padding: 13px 24px;
+    }
+
+    .nav__brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-shrink: 0;
+    }
+
+    .nav__pip {
+      width: 26px;
+      height: 26px;
+      background: var(--accent);
+      border-radius: 5px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .nav__pip svg { display: block; }
+
+    .nav__org  { font-size: .8125rem; font-weight: 700; color: var(--text); letter-spacing: -.01em; }
+    .nav__team { font-size: .6875rem; color: var(--text-3); font-weight: 500; letter-spacing: .04em; text-transform: uppercase; }
+
+    .nav__links {
+      display: flex;
+      align-items: center;
+      gap: 2px;
+      list-style: none;
+    }
+
+    .nav__links a {
+      display: block;
+      padding: 5px 11px;
+      font-size: .8125rem;
+      font-weight: 500;
+      color: var(--text-2);
+      border-radius: 5px;
+      transition: color .15s, background .15s;
+    }
+
+    .nav__links a:hover {
+      color: var(--text);
+      background: var(--surface-2);
+      text-decoration: none;
+    }
+
+    .theme-btn {
+      width: 32px;
+      height: 32px;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      border-radius: var(--r);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      color: var(--text-2);
+      flex-shrink: 0;
+      transition: color .15s, background .15s, border-color .15s;
+    }
+
+    .theme-btn:hover    { color: var(--text); background: var(--surface-2); border-color: var(--border-hi); }
+    .theme-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+    .theme-btn svg { display: block; }
+
+    @media (max-width: 680px) { .nav__links { display: none; } }
+
+    /* =====================================================
+       HERO
+       ===================================================== */
+    .hero {
+      padding: 72px 0 60px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      font-family: var(--ff-mono);
+      font-size: .71rem;
+      font-weight: 500;
+      color: var(--accent-text);
+      letter-spacing: .07em;
+      text-transform: uppercase;
+      margin-bottom: 18px;
+    }
+
+    .eyebrow::before {
+      content: '';
+      display: block;
+      width: 18px;
+      height: 1px;
+      background: var(--accent);
+      flex-shrink: 0;
+    }
+
+    .hero h1  { margin-bottom: 14px; }
+    .hero h1 mark { background: none; color: var(--accent-text); }
+    .hero__sub { font-size: 1.0625rem; line-height: 1.65; max-width: 660px; margin-bottom: 10px; }
+    .hero__meta { font-family: var(--ff-mono); font-size: .71rem; color: var(--text-3); margin-bottom: 52px; }
+
+    /* KPI strip */
+    .kpi-strip {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      border-radius: var(--rl);
+      overflow: hidden;
+    }
+
+    .kpi {
+      background: var(--surface);
+      padding: 22px 20px 20px;
+      position: relative;
+    }
+
+    .kpi::after {
+      content: '';
+      position: absolute;
+      inset: 0 0 auto;
+      height: 2px;
+      background: transparent;
+      transition: background .2s;
+    }
+
+    .kpi:hover::after { background: var(--accent); }
+
+    .kpi__label {
+      font-size: .6875rem;
+      font-weight: 600;
+      letter-spacing: .07em;
+      text-transform: uppercase;
+      color: var(--text-3);
+      margin-bottom: 9px;
+    }
+
+    .kpi__value {
+      font-family: var(--ff-mono);
+      font-size: clamp(1.6rem, 2.8vw, 2.2rem);
+      font-weight: 500;
+      line-height: 1;
+      font-variant-numeric: tabular-nums;
+      color: var(--accent-text);
+      margin-bottom: 5px;
+    }
+
+    .kpi__value--neutral { color: var(--text); }
+
+    .kpi__detail { font-size: .7875rem; color: var(--text-3); line-height: 1.4; }
+
+    @media (max-width: 760px) { .kpi-strip { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 380px) { .kpi-strip { grid-template-columns: 1fr; } }
+
+    /* =====================================================
+       SECTION SHELL
+       ===================================================== */
+    .section {
+      padding: 72px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .section:last-of-type { border-bottom: none; }
+
+    .section__hd { margin-bottom: 40px; }
+    .section__label { font-family: var(--ff-mono); font-size: .6875rem; font-weight: 500; letter-spacing: .1em; text-transform: uppercase; color: var(--accent-text); margin-bottom: 10px; }
+    .section__title { margin-bottom: 10px; }
+    .section__desc { max-width: 620px; }
+
+    /* =====================================================
+       CHALLENGE
+       ===================================================== */
+    .challenge-cols {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 44px;
+      align-items: start;
+    }
+
+    .challenge-prose h3 {
+      font-size: .75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .07em;
+      color: var(--text-3);
+      margin: 0 0 10px;
+    }
+
+    .challenge-prose h3 + h3 { margin-top: 24px; }
+    .challenge-prose p + p { margin-top: 12px; }
+
+    .cause-list {
+      list-style: none;
+      display: grid;
+      gap: 7px;
+      margin-top: 16px;
+    }
+
+    .cause-list li {
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+      font-size: .875rem;
+      color: var(--text-2);
+      line-height: 1.55;
+    }
+
+    .cause-list li::before {
+      content: '—';
+      font-family: var(--ff-mono);
+      font-weight: 500;
+      color: var(--amber);
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    .fact-stack { display: grid; gap: 12px; }
+
+    .fact {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--rl);
+      padding: 16px 18px;
+      box-shadow: var(--shadow);
+    }
+
+    .fact--danger  { border-left: 3px solid var(--red); }
+    .fact--warning { border-left: 3px solid var(--amber); }
+    .fact--insight { border-left: 3px solid var(--accent); }
+
+    .fact__label  { font-size: .6875rem; font-weight: 600; letter-spacing: .07em; text-transform: uppercase; color: var(--text-3); margin-bottom: 3px; }
+    .fact__value  { font-family: var(--ff-mono); font-size: 1.45rem; font-weight: 500; color: var(--text); font-variant-numeric: tabular-nums; line-height: 1.2; margin-bottom: 3px; }
+    .fact__detail { font-size: .8125rem; color: var(--text-2); }
+
+    .info-box {
+      background: var(--accent-fill);
+      border: 1px solid rgba(0,143,116,.2);
+      border-radius: var(--rl);
+      padding: 14px 18px;
+      margin-top: 20px;
+      font-size: .875rem;
+      color: var(--text-2);
+      line-height: 1.6;
+    }
+
+    .info-box strong { color: var(--accent-text); }
+
+    @media (max-width: 760px) { .challenge-cols { grid-template-columns: 1fr; } }
+
+    /* =====================================================
+       IMPACT DATA
+       ===================================================== */
+    .impact-cols {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      align-items: start;
+    }
+
+    @media (max-width: 940px) { .impact-cols { grid-template-columns: 1fr; } }
+
+    /* Table controls */
+    .tbl-controls {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 14px;
+      flex-wrap: wrap;
+    }
+
+    .tbl-control-lbl {
+      font-size: .6875rem;
+      font-weight: 600;
+      color: var(--text-3);
+      letter-spacing: .05em;
+      text-transform: uppercase;
+    }
+
+    .sort-btn {
+      padding: 4px 11px;
+      font-size: .6875rem;
+      font-weight: 600;
+      font-family: var(--ff-sans);
+      letter-spacing: .04em;
+      text-transform: uppercase;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--text-2);
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all .15s;
+    }
+
+    .sort-btn:hover, .sort-btn.active {
+      background: var(--accent-fill2);
+      border-color: var(--accent);
+      color: var(--accent-text);
+    }
+
+    .sort-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+    /* Table */
+    .tbl-scroll { overflow-x: auto; border-radius: var(--rl); }
+
+    .data-tbl {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: .875rem;
+      border: 1px solid var(--border);
+      border-radius: var(--rl);
+      overflow: hidden;
+    }
+
+    .data-tbl thead th {
+      background: var(--surface-2);
+      padding: 10px 14px;
+      text-align: left;
+      font-size: .6875rem;
+      font-weight: 700;
+      letter-spacing: .07em;
+      text-transform: uppercase;
+      color: var(--text-3);
+      white-space: nowrap;
+      border-bottom: 1px solid var(--border);
+      cursor: pointer;
+      user-select: none;
+      transition: color .15s;
+    }
+
+    .data-tbl thead th:hover { color: var(--text); }
+    .data-tbl thead th.sorted { color: var(--accent-text); }
+
+    .data-tbl tbody tr { border-bottom: 1px solid var(--border); transition: background .1s; }
+    .data-tbl tbody tr:last-child { border-bottom: none; }
+    .data-tbl tbody tr:hover { background: var(--surface-2); }
+
+    .data-tbl tbody td {
+      padding: 11px 14px;
+      color: var(--text-2);
+      white-space: nowrap;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .data-tbl tbody td:first-child { font-weight: 600; color: var(--text); font-size: .8125rem; }
+
+    .data-tbl tfoot tr { background: var(--accent-fill); border-top: 2px solid var(--accent); }
+    .data-tbl tfoot td { padding: 11px 14px; font-weight: 700; font-size: .875rem; color: var(--accent-text); white-space: nowrap; font-variant-numeric: tabular-nums; }
+    .data-tbl tfoot td:first-child { color: var(--text); }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      font-family: var(--ff-mono);
+      font-size: .71rem;
+      font-weight: 500;
+      padding: 2px 7px;
+      border-radius: 3px;
+    }
+
+    .badge--down { background: var(--accent-fill2); color: var(--accent-text); }
+    .badge--up   { background: var(--red-fill); color: var(--red); }
+
+    .nums {
+      font-family: var(--ff-mono);
+      font-size: .8125rem;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .nums .b  { color: var(--amber); }
+    .nums .ar { color: var(--text-3); margin: 0 3px; }
+    .nums .a  { color: var(--text); }
+
+    /* Chart */
+    .chart-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--rl);
+      padding: 22px;
+      box-shadow: var(--shadow);
+    }
+
+    .chart-hd {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: 18px;
+      gap: 12px;
+    }
+
+    .chart-title { font-size: .875rem; font-weight: 700; color: var(--text); margin-bottom: 2px; }
+    .chart-sub   { font-size: .75rem; color: var(--text-3); }
+
+    .chart-legend {
+      display: flex;
+      gap: 12px;
+      flex-shrink: 0;
+    }
+
+    .cl-item {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-size: .6875rem;
+      font-weight: 600;
+      letter-spacing: .05em;
+      text-transform: uppercase;
+      color: var(--text-3);
+    }
+
+    .cl-swatch { width: 10px; height: 10px; border-radius: 2px; flex-shrink: 0; }
+
+    .chart-canvas { position: relative; height: 290px; }
+
+    /* =====================================================
+       QUALITY
+       ===================================================== */
+    .quality-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+    }
+
+    @media (max-width: 860px)  { .quality-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 560px)  { .quality-grid { grid-template-columns: 1fr; } }
+
+    .q-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--rl);
+      padding: 22px;
+      box-shadow: var(--shadow);
+    }
+
+    .q-card__ico {
+      width: 34px;
+      height: 34px;
+      background: var(--accent-fill2);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 14px;
+      color: var(--accent-text);
+    }
+
+    .q-card__ico svg { display: block; }
+    .q-card__title { font-size: .9375rem; font-weight: 700; color: var(--text); margin-bottom: 7px; }
+    .q-card__body  { font-size: .875rem; color: var(--text-2); line-height: 1.6; }
+
+    .q-card__stat {
+      margin-top: 14px;
+      padding-top: 14px;
+      border-top: 1px solid var(--border);
+    }
+
+    .q-card__stat-val {
+      font-family: var(--ff-mono);
+      font-size: 1.25rem;
+      font-weight: 500;
+      color: var(--accent-text);
+      font-variant-numeric: tabular-nums;
+      line-height: 1;
+      margin-bottom: 2px;
+    }
+
+    .q-card__stat-lbl { font-size: .71rem; color: var(--text-3); }
+
+    .vol-callout {
+      margin-top: 20px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--rl);
+      padding: 26px 30px;
+      display: flex;
+      align-items: center;
+      gap: 40px;
+      box-shadow: var(--shadow);
+    }
+
+    .vol-callout__main { flex: 1; }
+    .vol-callout__hed  { font-size: .71rem; font-weight: 700; letter-spacing: .07em; text-transform: uppercase; color: var(--text-3); margin-bottom: 7px; }
+    .vol-callout__body { font-size: .9375rem; color: var(--text-2); line-height: 1.6; }
+
+    .vol-nums { display: flex; gap: 30px; flex-shrink: 0; }
+    .vol-stat__val { font-family: var(--ff-mono); font-size: 1.9rem; font-weight: 500; color: var(--accent-text); font-variant-numeric: tabular-nums; line-height: 1; margin-bottom: 3px; }
+    .vol-stat__lbl { font-size: .6875rem; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--text-3); }
+
+    @media (max-width: 720px) { .vol-callout { flex-direction: column; gap: 22px; } .vol-nums { flex-wrap: wrap; } }
+
+    /* =====================================================
+       PLAYBOOK
+       ===================================================== */
+    .playbook {
+      display: grid;
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      border-radius: var(--rl);
+      overflow: hidden;
+    }
+
+    .pb-item {
+      background: var(--surface);
+      display: grid;
+      grid-template-columns: 64px 1fr;
+      transition: background .12s;
+    }
+
+    .pb-item:hover { background: var(--surface-2); }
+
+    .pb-num {
+      display: flex;
+      align-items: flex-start;
+      justify-content: flex-end;
+      padding: 26px 18px 26px 22px;
+      font-family: var(--ff-mono);
+      font-size: .71rem;
+      font-weight: 500;
+      color: var(--text-3);
+      letter-spacing: .06em;
+      border-right: 1px solid var(--border);
+    }
+
+    .pb-body { padding: 26px 26px 26px 22px; }
+
+    .pb-hed {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .pb-tag {
+      font-family: var(--ff-mono);
+      font-size: .6875rem;
+      font-weight: 500;
+      padding: 2px 8px;
+      border-radius: 3px;
+      background: var(--accent-fill2);
+      color: var(--accent-text);
+      letter-spacing: .03em;
+    }
+
+    .pb-desc { font-size: .875rem; color: var(--text-2); line-height: 1.65; }
+
+    .pb-eg {
+      margin-top: 11px;
+      padding: 12px 14px;
+      background: var(--bg);
+      border-radius: var(--r);
+      border: 1px solid var(--border);
+      font-size: .8125rem;
+      color: var(--text-2);
+      line-height: 1.55;
+    }
+
+    .pb-eg strong { color: var(--accent-text); font-family: var(--ff-mono); font-weight: 500; }
+
+    /* =====================================================
+       CREDITS
+       ===================================================== */
+    .credits-row { display: flex; gap: 20px; flex-wrap: wrap; }
+
+    .credit {
+      flex: 1;
+      min-width: 240px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--rl);
+      padding: 22px;
+      box-shadow: var(--shadow);
+    }
+
+    .credit--accent { border-top: 2px solid var(--accent); }
+
+    .credit__role  { font-size: .6875rem; font-weight: 700; letter-spacing: .09em; text-transform: uppercase; color: var(--accent-text); margin-bottom: 6px; }
+    .credit__name  { font-size: 1.1rem; font-weight: 700; color: var(--text); margin-bottom: 7px; }
+    .credit__desc  { font-size: .875rem; color: var(--text-2); line-height: 1.6; }
+
+    /* =====================================================
+       FOOTER
+       ===================================================== */
+    footer {
+      padding: 44px 0;
+      border-top: 1px solid var(--border);
+      background: var(--bg-deep);
+    }
+
+    .footer-row {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+
+    .footer-brand { font-size: .8125rem; font-weight: 700; color: var(--text); margin-bottom: 5px; }
+    .footer-note  { font-size: .71rem; color: var(--text-3); max-width: 560px; line-height: 1.65; }
+    .footer-date  { font-family: var(--ff-mono); font-size: .6875rem; color: var(--text-3); text-align: right; flex-shrink: 0; }
+    .footer-date a { color: var(--text-3); }
+    .footer-date a:hover { color: var(--text-2); }
+  </style>
+</head>
+<body>
+
+<!-- =====================================================
+     NAV
+     ===================================================== -->
+<nav class="nav" aria-label="Main navigation">
+  <div class="nav__row">
+    <div class="nav__brand">
+      <div class="nav__pip" aria-hidden="true">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+          <path d="M7 1L13 11H1L7 1Z" fill="#0A0C14" opacity=".85"/>
+        </svg>
+      </div>
+      <div>
+        <div class="nav__org">Employment Hero</div>
+        <div class="nav__team">Growth &amp; Operations</div>
+      </div>
+    </div>
+
+    <ul class="nav__links" role="list">
+      <li><a href="#challenge">Challenge</a></li>
+      <li><a href="#impact">Impact Data</a></li>
+      <li><a href="#quality">Quality</a></li>
+      <li><a href="#playbook">Playbook</a></li>
+      <li><a href="#credits">Credits</a></li>
+    </ul>
+
+    <button class="theme-btn" id="themeBtn" aria-label="Toggle colour scheme" title="Toggle light / dark">
+      <svg id="ico-moon" width="15" height="15" viewBox="0 0 15 15" fill="none"><path d="M13.5 10A6 6 0 015 1.5a6 6 0 100 11A6 6 0 0013.5 10z" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <svg id="ico-sun"  width="15" height="15" viewBox="0 0 15 15" fill="none" style="display:none"><circle cx="7.5" cy="7.5" r="2.75" stroke="currentColor" stroke-width="1.4"/><line x1="7.5" y1=".5" x2="7.5" y2="2.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><line x1="7.5" y1="12.5" x2="7.5" y2="14.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><line x1=".5" y1="7.5" x2="2.5" y2="7.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><line x1="12.5" y1="7.5" x2="14.5" y2="7.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><line x1="2.75" y1="2.75" x2="4.16" y2="4.16" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><line x1="10.84" y1="10.84" x2="12.25" y2="12.25" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><line x1="2.75" y1="12.25" x2="4.16" y2="10.84" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><line x1="10.84" y1="4.16" x2="12.25" y2="2.75" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+    </button>
+  </div>
+</nav>
+
+<!-- =====================================================
+     HERO
+     ===================================================== -->
+<header class="hero" id="top">
+  <div class="wrap">
+    <p class="eyebrow">Relevance AI &middot; SDR Workforce Optimization</p>
+    <h1>Efficiency &amp; Scalability<br><mark>Overhaul</mark></h1>
+    <p class="hero__sub">Extending operational runway, eliminating architectural waste, and building a high-reliability AI workforce platform across all eight AI SDR workforces.</p>
+    <p class="hero__meta">Employment Hero &middot; Growth &amp; Operations &middot; August 2026</p>
+
+    <div class="kpi-strip" role="list" aria-label="Key results">
+      <div class="kpi" role="listitem">
+        <div class="kpi__label">Avg. action spend / run</div>
+        <div class="kpi__value">−45%</div>
+        <div class="kpi__detail">Weighted across all 8 workforces</div>
+      </div>
+      <div class="kpi" role="listitem">
+        <div class="kpi__label">Avg. credit spend / run</div>
+        <div class="kpi__value">−42%</div>
+        <div class="kpi__detail">Weighted across all 8 workforces</div>
+      </div>
+      <div class="kpi" role="listitem">
+        <div class="kpi__label">Output quality retained</div>
+        <div class="kpi__value kpi__value--neutral">100%</div>
+        <div class="kpi__detail">Validated via automated eval frameworks</div>
+      </div>
+      <div class="kpi" role="listitem">
+        <div class="kpi__label">Error rate trajectory</div>
+        <div class="kpi__value">↓ Elim.</div>
+        <div class="kpi__detail">Silent tool failure loops removed</div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- =====================================================
+     01 — CHALLENGE
+     ===================================================== -->
+<section class="section" id="challenge">
+  <div class="wrap">
+    <div class="section__hd">
+      <p class="section__label">01 / The Challenge</p>
+      <h2 class="section__title">A platform crisis in slow motion</h2>
+      <p class="section__desc">Our AI SDR workforces were consuming the shared Relevance AI allowance at a rate heading toward a full platform shutdown — affecting every team, not just ours.</p>
+    </div>
+
+    <div class="challenge-cols">
+      <div class="challenge-prose">
+        <h3>The situation</h3>
+        <p>Across eight AI SDR workforces, each prospect was being processed at 12–16 actions and 4–8 search runs — a design inherited from early proof-of-concept builds where throughput wasn't yet a constraint. As volume grew, that cost-per-lead profile didn't shrink. It compounded.</p>
+
+        <h3>Root causes</h3>
+        <ul class="cause-list">
+          <li>Architectural bloat — multi-step tool chains billing separately for every sub-call</li>
+          <li>Redundant cloned agents spun up per region with no shared optimization baseline</li>
+          <li>Silent error billing — one intel tool billed every run despite a ~100% failure rate across ~780 runs</li>
+          <li>"Set-and-forget" governance — workforces deployed and never audited for cost efficiency</li>
+          <li>No eval framework — cheaper rewrites couldn't be validated, so no one shipped them</li>
+        </ul>
+
+        <div class="info-box">
+          <strong>Important context:</strong> Despite a recent contract top-up, ongoing optimization remains mandatory. Run volumes are still growing — this work builds structural efficiency, not one-time relief.
+        </div>
+      </div>
+
+      <div class="fact-stack">
+        <div class="fact fact--danger">
+          <div class="fact__label">Monthly burn rate (before)</div>
+          <div class="fact__value">~196k</div>
+          <div class="fact__detail">Actions consumed per month across the full workforce fleet</div>
+        </div>
+        <div class="fact fact--warning">
+          <div class="fact__label">Remaining allowance at audit</div>
+          <div class="fact__value">~790k</div>
+          <div class="fact__detail">~335k marked as critical threshold — approx. 4 months runway at prior burn rate</div>
+        </div>
+        <div class="fact fact--warning">
+          <div class="fact__label">Ghost-billing example</div>
+          <div class="fact__value">~780 runs</div>
+          <div class="fact__detail">One tool billed for every run it attempted despite a ~100% failure rate throughout</div>
+        </div>
+        <div class="fact fact--insight">
+          <div class="fact__label">Strategic shift</div>
+          <div class="fact__value" style="font-size:1.05rem;line-height:1.35;">Proof of concept → ROI mode</div>
+          <div class="fact__detail">Moved from "scale fast" to "scale efficiently" — quality-gated rebuilds over raw expansion</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =====================================================
+     02 — IMPACT DATA
+     ===================================================== -->
+<section class="section" id="impact">
+  <div class="wrap">
+    <div class="section__hd">
+      <p class="section__label">02 / Impact Data</p>
+      <h2 class="section__title">Per-run efficiency across all eight workforces</h2>
+      <p class="section__desc">Actions and credits are measured <em>per run</em> — per prospect processed — so the comparison is fair even where total volume changed significantly.</p>
+    </div>
+
+    <div class="impact-cols">
+      <!-- Table -->
+      <div>
+        <div class="tbl-controls">
+          <span class="tbl-control-lbl">Sort:</span>
+          <button class="sort-btn active" data-sort="default">Workforce</button>
+          <button class="sort-btn" data-sort="action">Action Δ</button>
+          <button class="sort-btn" data-sort="credit">Credit Δ</button>
+        </div>
+        <div class="tbl-scroll">
+          <table class="data-tbl" id="mainTable" aria-label="Efficiency improvements per workforce">
+            <thead>
+              <tr>
+                <th scope="col">Workforce</th>
+                <th scope="col">Actions / Run</th>
+                <th scope="col">Δ Act.</th>
+                <th scope="col">Credits / Run</th>
+                <th scope="col">Δ Cred.</th>
+              </tr>
+            </thead>
+            <tbody id="tbody"></tbody>
+            <tfoot>
+              <tr>
+                <td>Average Impact</td>
+                <td>—</td>
+                <td><span class="badge badge--down">−45%</span></td>
+                <td>—</td>
+                <td><span class="badge badge--down">−42%</span></td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+      </div>
+
+      <!-- Chart -->
+      <div>
+        <div class="chart-card">
+          <div class="chart-hd">
+            <div>
+              <div class="chart-title">Actions per run — Before vs. After</div>
+              <div class="chart-sub">Lower is better — fewer billed steps per prospect</div>
+            </div>
+            <div class="chart-legend">
+              <div class="cl-item"><div class="cl-swatch" style="background:#F59E0B;"></div>Before</div>
+              <div class="cl-item"><div class="cl-swatch" style="background:#00D4AA;"></div>After</div>
+            </div>
+          </div>
+          <div class="chart-canvas">
+            <canvas id="actionsChart" aria-label="Grouped bar chart comparing actions per run before and after optimization for each workforce"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =====================================================
+     03 — QUALITY
+     ===================================================== -->
+<section class="section" id="quality">
+  <div class="wrap">
+    <div class="section__hd">
+      <p class="section__label">03 / Quality &amp; Reliability</p>
+      <h2 class="section__title">Zero quality was sacrificed</h2>
+      <p class="section__desc">Every rebuilt workforce passed a rigorous, automated eval framework before it touched a live prospect. Cheaper and higher reliability — simultaneously.</p>
+    </div>
+
+    <div class="quality-grid">
+      <div class="q-card">
+        <div class="q-card__ico"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M9 2l1.8 5H16l-4.4 3.2 1.8 5L9 12l-4.4 3.2 1.8-5L2 7h5.2L9 2Z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg></div>
+        <div class="q-card__title">Automated Eval Frameworks</div>
+        <div class="q-card__body">Every rebuilt workforce ran against a structured checklist of graded output requirements — tested automatically, at scale, before shipping.</div>
+        <div class="q-card__stat">
+          <div class="q-card__stat-val">31 checks</div>
+          <div class="q-card__stat-lbl">across 7 test cases for UK Outbound alone</div>
+        </div>
+      </div>
+
+      <div class="q-card">
+        <div class="q-card__ico"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="7" stroke="currentColor" stroke-width="1.4"/><path d="M6 9l2 2 4-4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="q-card__title">Quality-Gated Shipping</div>
+        <div class="q-card__body">No rebuilt workforce went live until its eval score matched or exceeded its predecessor. Iterative fix-and-retest rounds, not a single pass.</div>
+        <div class="q-card__stat">
+          <div class="q-card__stat-val">1.0 / 1.0</div>
+          <div class="q-card__stat-lbl">perfect score required before production deployment</div>
+        </div>
+      </div>
+
+      <div class="q-card">
+        <div class="q-card__ico"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><rect x="2" y="4" width="14" height="10" rx="2" stroke="currentColor" stroke-width="1.4"/><path d="M5 8h8M5 11h5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg></div>
+        <div class="q-card__title">Real-Prospect Test Cases</div>
+        <div class="q-card__body">Several eval test cases were built from closed or inactive real prospects — ensuring validation against actual data profiles, not synthetic inputs.</div>
+        <div class="q-card__stat">
+          <div class="q-card__stat-val">Real data</div>
+          <div class="q-card__stat-lbl">closed / inactive records used throughout</div>
+        </div>
+      </div>
+
+      <div class="q-card">
+        <div class="q-card__ico"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M9 2v7l4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/><circle cx="9" cy="9" r="7" stroke="currentColor" stroke-width="1.4"/></svg></div>
+        <div class="q-card__title">Error Rate Trajectory</div>
+        <div class="q-card__body">Silent failure loops and broken API calls were identified and removed. Error rates fell — or hit zero — on every workforce after rebuild.</div>
+        <div class="q-card__stat">
+          <div class="q-card__stat-val">0% errors</div>
+          <div class="q-card__stat-lbl">on 5 of 8 workforces post-rebuild</div>
+        </div>
+      </div>
+
+      <div class="q-card">
+        <div class="q-card__ico"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M3 15V6l6-3 6 3v9" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/><rect x="7" y="10" width="4" height="5" stroke="currentColor" stroke-width="1.4"/></svg></div>
+        <div class="q-card__title">Bug Discovery</div>
+        <div class="q-card__body">Rebuilding forced a full audit. Bugs found: UK case-study search returning 4 of 41 items; Canada pointing at empty data source; UK tagging all leads as AU.</div>
+        <div class="q-card__stat">
+          <div class="q-card__stat-val">4 bugs</div>
+          <div class="q-card__stat-lbl">silent production bugs found and fixed during rebuild</div>
+        </div>
+      </div>
+
+      <div class="q-card">
+        <div class="q-card__ico"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M3 9h12M11 5l4 4-4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="q-card__title">Iterative Refinement</div>
+        <div class="q-card__body">AU/NZ Outbound's eval score climbed from 0.125 on the first batch to a perfect 1.0 over ten rounds of fix-and-retest — only then did it go live.</div>
+        <div class="q-card__stat">
+          <div class="q-card__stat-val">0.125 → 1.0</div>
+          <div class="q-card__stat-lbl">eval score progression, AU/NZ rebuild</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="vol-callout">
+      <div class="vol-callout__main">
+        <div class="vol-callout__hed">Volume scalability — AU/NZ Outbound case study</div>
+        <p class="vol-callout__body">During this same period, AU/NZ Outbound volume roughly doubled. Because of these efficiency optimizations, the system handled 2× throughput without the action footprint growing proportionally. This is the structural win: efficiency per run decouples cost from volume growth.</p>
+      </div>
+      <div class="vol-nums">
+        <div class="vol-stat">
+          <div class="vol-stat__val">2×</div>
+          <div class="vol-stat__lbl">Volume growth</div>
+        </div>
+        <div class="vol-stat">
+          <div class="vol-stat__val">−25%</div>
+          <div class="vol-stat__lbl">Actions / run</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =====================================================
+     04 — PLAYBOOK
+     ===================================================== -->
+<section class="section" id="playbook">
+  <div class="wrap">
+    <div class="section__hd">
+      <p class="section__label">04 / Optimization Blueprint</p>
+      <h2 class="section__title">Replicable patterns for any Relevance AI team</h2>
+      <p class="section__desc">Five patterns did almost all of the work. Any team running Relevance AI workforces can apply these directly.</p>
+    </div>
+
+    <div class="playbook">
+      <div class="pb-item">
+        <div class="pb-num">01</div>
+        <div class="pb-body">
+          <div class="pb-hed">Tool Stacking &amp; Consolidation <span class="pb-tag">Highest impact</span></div>
+          <p class="pb-desc">Combine multiple small, separately-billed lookups into a single consolidated tool that runs all steps internally and returns one answer. You're billed for the tool call, not the internal steps — this is the biggest single lever.</p>
+          <div class="pb-eg">Before: website scrape + 3 searches + LinkedIn lookup + conditional search + synthesis = <strong>8 billed actions</strong>.<br>After: one consolidated research tool = <strong>1 billed action</strong>.</div>
+        </div>
+      </div>
+
+      <div class="pb-item">
+        <div class="pb-num">02</div>
+        <div class="pb-body">
+          <div class="pb-hed">Silent Error Elimination</div>
+          <p class="pb-desc">Audit your tool failure rates — not whether tools "usually work", but whether they bill on failure. You're charged for the attempt regardless of outcome. A tool that fails 50%+ of runs is a billing tax with zero output value.</p>
+          <div class="pb-eg">One lookup tool failed on roughly <strong>46–60% of runs every measured month</strong>. Removed entirely rather than continue paying for a coin flip.</div>
+        </div>
+      </div>
+
+      <div class="pb-item">
+        <div class="pb-num">03</div>
+        <div class="pb-body">
+          <div class="pb-hed">Prompt Tightening &amp; Toolbox Trimming</div>
+          <p class="pb-desc">Shorter instruction sets and fewer available tools reduce unnecessary reasoning. Each unreachable tool is a context token cost with no upside. Each redundant instruction is noise the model has to process and discard.</p>
+          <div class="pb-eg">AU/NZ orchestrator instructions: <strong>11,389 → 9,862 characters</strong> (zero logic change). Research agent available tools: <strong>15 → 11</strong>.</div>
+        </div>
+      </div>
+
+      <div class="pb-item">
+        <div class="pb-num">04</div>
+        <div class="pb-body">
+          <div class="pb-hed">Rebuild Once, Stop Maintaining Clones</div>
+          <p class="pb-desc">A fix applied to one regional clone never reaches the others. Inefficiencies get duplicated, bugs persist in forks, and every optimization requires N times the effort. A shared maintained base beats N regional divergences.</p>
+          <div class="pb-eg">Canada had drifted into its own lineage. Rebuilt to <strong>mirror the already-optimized AU/NZ base</strong> — one fix now flows everywhere.</div>
+        </div>
+      </div>
+
+      <div class="pb-item">
+        <div class="pb-num">05</div>
+        <div class="pb-body">
+          <div class="pb-hed">Gate Every Change Behind a Score</div>
+          <p class="pb-desc">"Cheaper" is easy to prove. "Not worse" requires a real measurement. Without an eval framework, no one ships optimized versions because the risk is invisible. With one, the risk is quantified and defeatable.</p>
+          <div class="pb-eg">No rebuilt workforce went live until it scored <strong>equal to or better than its predecessor</strong>. The eval process also caught 4 pre-existing silent production bugs.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =====================================================
+     05 — CREDITS
+     ===================================================== -->
+<section class="section" id="credits">
+  <div class="wrap">
+    <div class="section__hd">
+      <p class="section__label">05 / Project Credits</p>
+      <h2 class="section__title">The team behind this</h2>
+    </div>
+
+    <div class="credits-row">
+      <div class="credit credit--accent">
+        <div class="credit__role">Project Lead</div>
+        <div class="credit__name">Growth &amp; Operations Team</div>
+        <div class="credit__desc">End-to-end ownership: audit, architecture, rebuild, eval framework design, and deployment across all eight AI SDR workforces.</div>
+      </div>
+      <div class="credit">
+        <div class="credit__role">Collaborative Contributor</div>
+        <div class="credit__name">Chris Mockford</div>
+        <div class="credit__desc">Directly optimized AU/NZ Outbound, Canada Outbound, and UK Outbound workforces — accelerating the project and contributing hands-on to three of the highest-volume rebuilds.</div>
+      </div>
+    </div>
+
+    <div class="info-box" style="margin-top:20px;">
+      <strong>For other teams:</strong> This dashboard is a shared resource for any team at Employment Hero using Relevance AI. The playbook above is replicable. If your workforces haven't been audited, this is where to start.
+    </div>
+  </div>
+</section>
+
+<!-- =====================================================
+     FOOTER
+     ===================================================== -->
+<footer>
+  <div class="wrap">
+    <div class="footer-row">
+      <div>
+        <div class="footer-brand">Employment Hero — Growth &amp; Operations</div>
+        <p class="footer-note">All figures compare real Relevance AI platform usage data, pulled per-workforce. Six workforces use matched one-month windows (mid-May–mid-June 2026 vs mid-July–mid-August 2026). Global Webinar and Global Event use the week following their 2026-08-11 deployment vs the same original baseline. "Average impact" is weighted by current run volume across all 8 workforces.</p>
+      </div>
+      <div class="footer-date">
+        <div>August 2026</div>
+        <div style="margin-top:5px;"><a href="#top">↑ Back to top</a></div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- =====================================================
+     JAVASCRIPT
+     ===================================================== -->
+<script>
+// -------------------------------------------------------
+// Data
+// -------------------------------------------------------
+const WF = [
+  { name: "Global Lost Revive",  ab: 17.0, aa: 4.9,  ad: -71, cb: 40.5, ca: 22.1, cd: -45 },
+  { name: "CA Outbound",         ab: 14.0, aa: 7.0,  ad: -50, cb: 38.3, ca: 14.3, cd: -63 },
+  { name: "UK Outbound",         ab: 13.7, aa: 6.8,  ad: -50, cb: 21.2, ca: 14.5, cd: -32 },
+  { name: "IB Global Event",     ab: 14.1, aa: 8.1,  ad: -43, cb: 37.6, ca: 21.7, cd: -42 },
+  { name: "IB Global Webinar",   ab: 15.7, aa: 9.1,  ad: -42, cb: 41.8, ca: 23.9, cd: -43 },
+  { name: "AU MM Outbound",      ab: 15.8, aa: 9.1,  ad: -42, cb: 34.9, ca: 21.5, cd: -38 },
+  { name: "Global IB AI SDR",    ab: 15.0, aa: 9.7,  ad: -35, cb: 33.0, ca: 27.2, cd: -18 },
+  { name: "AU/NZ Outbound",      ab: 14.4, aa: 10.8, ad: -25, cb: 30.4, ca: 14.7, cd: -52 }
+];
+
+// -------------------------------------------------------
+// Table
+// -------------------------------------------------------
+let sortKey = 'default', sortDir = 1;
+
+function renderTable(data) {
+  document.getElementById('tbody').innerHTML = data.map(r => `
+    <tr>
+      <td>${r.name}</td>
+      <td><span class="nums"><span class="b">${r.ab.toFixed(1)}</span><span class="ar">→</span><span class="a">${r.aa.toFixed(1)}</span></span></td>
+      <td><span class="badge badge--down">${r.ad}%</span></td>
+      <td><span class="nums"><span class="b">${r.cb.toFixed(1)}</span><span class="ar">→</span><span class="a">${r.ca.toFixed(1)}</span></span></td>
+      <td><span class="badge badge--down">${r.cd}%</span></td>
+    </tr>
+  `).join('');
+}
+
+function sortedData() {
+  return [...WF].sort((a, b) => {
+    if (sortKey === 'action')  return sortDir * (a.ad - b.ad);
+    if (sortKey === 'credit')  return sortDir * (a.cd - b.cd);
+    return 0; // original order
+  });
+}
+
+document.querySelectorAll('.sort-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const k = btn.dataset.sort;
+    if (sortKey === k) { sortDir *= -1; }
+    else { sortKey = k; sortDir = (k === 'default') ? 1 : -1; }
+    document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    renderTable(sortedData());
+  });
+});
+
+renderTable(WF);
+
+// -------------------------------------------------------
+// Chart
+// -------------------------------------------------------
+function isDark() {
+  const t = document.documentElement.getAttribute('data-theme');
+  if (t === 'dark')  return true;
+  if (t === 'light') return false;
+  return window.matchMedia('(prefers-color-scheme: dark)').matches;
+}
+
+function themeColors() {
+  const dark = isDark();
+  return {
+    grid:   dark ? 'rgba(255,255,255,.06)' : 'rgba(0,0,0,.05)',
+    tick:   dark ? '#848DB0' : '#7A80A2',
+  };
+}
+
+let chart;
+
+function buildChart() {
+  const ctx = document.getElementById('actionsChart').getContext('2d');
+  const tc = themeColors();
+  const labels = WF.map(w => w.name.length > 14 ? w.name.slice(0, 12) + '…' : w.name);
+
+  if (chart) chart.destroy();
+
+  chart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels,
+      datasets: [
+        {
+          label: 'Before',
+          data: WF.map(w => w.ab),
+          backgroundColor: 'rgba(245,158,11,.72)',
+          borderColor: 'rgba(245,158,11,1)',
+          borderWidth: 1,
+          borderRadius: 3,
+          borderSkipped: false
+        },
+        {
+          label: 'After',
+          data: WF.map(w => w.aa),
+          backgroundColor: 'rgba(0,212,170,.72)',
+          borderColor: 'rgba(0,212,170,1)',
+          borderWidth: 1,
+          borderRadius: 3,
+          borderSkipped: false
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      layout: { padding: 0 },
+      scales: {
+        x: {
+          ticks: {
+            color: tc.tick,
+            font: { size: 9.5, family: "'DM Mono', monospace" },
+            maxRotation: 35,
+            minRotation: 25
+          },
+          grid: { color: 'transparent' },
+          border: { color: tc.grid }
+        },
+        y: {
+          ticks: {
+            color: tc.tick,
+            font: { size: 9.5, family: "'DM Mono', monospace" },
+            stepSize: 5
+          },
+          grid: { color: tc.grid },
+          border: { display: false },
+          beginAtZero: true,
+          max: 20
+        }
+      },
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          backgroundColor: isDark() ? 'rgba(17,20,32,.96)' : 'rgba(11,13,26,.92)',
+          titleColor: '#E2E6F8',
+          bodyColor: '#848DB0',
+          borderColor: 'rgba(255,255,255,.1)',
+          borderWidth: 1,
+          padding: 11,
+          callbacks: {
+            label: ctx => ` ${ctx.dataset.label}: ${ctx.parsed.y.toFixed(1)} actions/run`
+          }
+        }
+      }
+    }
+  });
+}
+
+buildChart();
+
+// -------------------------------------------------------
+// Theme toggle
+// -------------------------------------------------------
+const root      = document.documentElement;
+const themeBtn  = document.getElementById('themeBtn');
+const icoMoon   = document.getElementById('ico-moon');
+const icoSun    = document.getElementById('ico-sun');
+
+function syncIcons() {
+  const dark = isDark();
+  icoMoon.style.display = dark ? 'none'  : 'block';
+  icoSun.style.display  = dark ? 'block' : 'none';
+}
+
+themeBtn.addEventListener('click', () => {
+  root.setAttribute('data-theme', isDark() ? 'light' : 'dark');
+  syncIcons();
+  buildChart();
+});
+
+syncIcons();
+
+window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
+  if (!root.hasAttribute('data-theme')) { syncIcons(); buildChart(); }
+});
+</script>
+</body>
+</html>
